@@ -17,23 +17,19 @@ class General extends Component {
             <div>
                 <form>
                     <div>
-                        <label for="full-name">Full name:</label>
-                        <input type="text" id="full-name"/>
+                        <input type="text" id="full-name" placeholder="Full name"/>
                     </div>
                     <div>
-                        <label for="email">Email:</label>
-                        <input type="email" id="email"/>
+                        <input type="email" id="email" placeholder="E-mail"/>
                     </div>
                     <div>
-                        <label for="phone">Phone:</label>
-                        <input type="tel" id="phone"/>
+                        <input type="tel" id="phone" placeholder="Phone"/>
                     </div>
                     <div>
-                        <label for="about">About me:</label>
+                        <label htmlFor="about">About me:</label>
                         <input type="textarea" id="about"/>
                     </div>
-{/*                     <button type="submit" onClick={submitGeneral}>Done</button>
- */}                </form>
+                </form>
             </div>
         )
     }

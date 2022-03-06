@@ -3,6 +3,7 @@
 body {
   font-family: 'Nunito', sans-serif;
   margin: auto;
+  --green: rgb(79, 187, 133);
 }
 
 .App {
@@ -10,13 +11,6 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-header {
-  padding: 10px 0px;
-  font-size: x-large;
-  font-weight: bold;
-  margin-bottom: 50px;
 }
 
 .container {
@@ -43,8 +37,66 @@ form>div {
 }
 
 input {
+  font-family: inherit;
   outline: none;
   border: 1px solid rgb(204, 207, 206);
   padding: 7px 10px;
   color: rgb(104, 109, 107);
+}
+
+#full-name {
+  font-size: x-large;
+  font-weight: bold;
+}
+
+#email, #phone, #about {
+  font-size: large;
+}
+
+#email, #phone, #full-name, #about {
+  border: none;
+  padding: 0;
+  color: rgb(54, 56, 55);
+}
+
+#about:focus {
+  border: 1px solid rgb(204, 207, 206);
+  padding: 7px 10px;
+}
+
+label[for="about"] {
+  font-size: large;
+}
+
+h3, label[for="about"] {
+  color: var(--green);
+}
+
+.add-button, .submit-button {
+  font-family: inherit;
+}
+
+.add-button {
+  border: none;
+  padding: 5px 10px;
+  margin-bottom: 10px;
+  background-color: rgb(204, 207, 206);
+  transition: all .2s ease-in-out;
+}
+
+.add-button:hover {
+  transform: scale(1.1);
+}
+
+.submit-button {
+  border: 1px solid var(--green);
+  font-weight: bold;
+  font-size: large;
+  background: none;
+  padding: 5px 10px;
+  color: var(--green);
+}
+
+.submit-button:hover {
+  box-shadow: 0 0.5em 0.5em -0.4em var(--green);
 }

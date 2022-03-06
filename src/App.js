@@ -4,10 +4,9 @@ import Experience from "./components/Experience";
 import General from "./components/General";
 
 class App extends Component {
-  render() {
+ render() {
       return (
         <div className="App">
-          <header>CV generator</header>
           <div className="container">
             <General/>
             <div className="specific-info">
