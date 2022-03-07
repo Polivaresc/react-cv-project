@@ -12,6 +12,7 @@ class Education extends Component {
 
         this.showEducationForm = this.showEducationForm.bind(this)
         this.addEducationToList = this.addEducationToList.bind(this)
+        this.deleteEducation = this.deleteEducation.bind(this)
     }
 
     showEducationForm() {
@@ -27,13 +28,19 @@ class Education extends Component {
         })
     }
 
+    deleteEducation(e) {
+        this.setState({
+            educationList: this.state.educationList.filter((education) => education.id !== e.target.dataset.id)
+        })
+    }
+
     render() {
         return (
             <div>
                 <h3>Education:</h3>
                 <button className="add-button" onClick={this.showEducationForm}>Add Education +</button>
                 {this.state.showForm && <EducationForm addEducationToList={this.addEducationToList}/>}
-                <EducationList educationList={this.state.educationList}/>
+                <EducationList educationList={this.state.educationList} deleteEducation={this.deleteEducation}/>
             </div>
         )
     }
@@ -95,16 +102,20 @@ class EducationForm extends Component {
 }
 
 const EducationList = (props) => {
-    const { educationList } = props
+    const { educationList, deleteEducation } = props
 
     return (
         <ul>
             {educationList.map((education) => {
                 return <li key={education.id}>
-                        <span className="li-title">{education.title}</span>
-                        <span>{education.institution}</span>
-                        <span>{education.date}</span>
-                    </li>
+                            <span className="education-li">
+                                <span className="li-title">{education.title}</span>
+                                <span>{education.institution}</span>
+                                <span>{education.date}</span>
+                            </span>
+                        
+                            <span className="delete" data-id={education.id} onClick={deleteEducation}>X</span>
+                        </li>
             })}
         </ul> 
     )

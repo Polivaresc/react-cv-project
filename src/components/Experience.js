@@ -12,6 +12,8 @@ class Experience extends Component {
 
         this.showExperienceForm = this.showExperienceForm.bind(this)
         this.addExperienceToList = this.addExperienceToList.bind(this)
+        this.deleteExperience = this.deleteExperience.bind(this)
+
     }
 
     showExperienceForm() {
@@ -27,13 +29,19 @@ class Experience extends Component {
         })
     }
 
+    deleteExperience(e) {
+        this.setState({
+            experienceList: this.state.experienceList.filter((experience) => experience.id !== e.target.dataset.id)
+        })
+    }
+
     render() {
         return (
             <div>
                 <h3>Work experience:</h3>
                 <button className="add-button" onClick={this.showExperienceForm}>Add Experience +</button>
                 {this.state.showForm && <ExperienceForm addExperienceToList={this.addExperienceToList}/>}
-                <ExperienceList experienceList={this.state.experienceList}/>
+                <ExperienceList experienceList={this.state.experienceList} deleteExperience={this.deleteExperience}/>
             </div>
         )
     }
@@ -103,18 +111,21 @@ class ExperienceForm extends Component {
 }
 
 const ExperienceList = (props) => {
-    const { experienceList } = props
+    const { experienceList, deleteExperience } = props
 
     return (
         <ul>
             {experienceList.map((experience) => {
                 return <li key={experience.id} className="experience-li">
-                            <div className="experience-info">
-                                <span className="li-title">{experience.title}</span>
-                                <span>{experience.company}</span>
-                                <span>{experience.duration} yr</span>
+                            <div className="main-experience">
+                                <span className="experience-info">
+                                    <span className="li-title">{experience.title}</span>
+                                    <span>{experience.company}</span>
+                                    <span>{experience.duration} yr</span>
+                                </span>
+                                <span className="delete" data-id={experience.id} onClick={deleteExperience}>X</span>
                             </div>
-                            <div className="li-tasks">{experience.tasks}</div>
+                            <div className="li-tasks">Main tasks: {experience.tasks}</div>
                         </li>
             })}
         </ul> 

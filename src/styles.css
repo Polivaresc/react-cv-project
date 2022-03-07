@@ -25,7 +25,7 @@ body {
 .specific-info {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 150px;
+  gap: clamp(50px, 100px, 200px);
 }
 
 form {
@@ -44,6 +44,10 @@ input {
   border: 1px solid var(--light-gray);
   padding: 7px 10px;
   color: var(--dark-gray);
+}
+
+input:focus {
+  border: 1px solid var(--green);
 }
 
 .general-form label, .general-info div {
@@ -74,17 +78,19 @@ h2 {
   margin: 0;
 }
 
-#about:focus {
-  border: 1px solid var(--light-gray);
-  padding: 7px 10px;
-}
-
 label[for="about"] {
   font-size: large;
 }
 
 h3, label[for="about"] {
   color: var(--green);
+}
+
+img {
+  width: 150px;
+  height: 150px;
+  padding: 10px;
+  border: 1px solid var(--green);
 }
 
 .add-button, .submit-button {
@@ -122,14 +128,24 @@ ul {
 }
 
 li {
-  padding: 10px 0;
+  padding: 10px;
 }
 
-li, .experience-info {
+li, .main-experience {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
-  justify-content: space-between;
-  gap: 10px;
+  grid-template-columns: 5fr 1fr;
+  gap: 20px;
+  justify-content: stretch;
+}
+
+li:hover {
+  background-color: rgb(232, 240, 237);
+}
+
+.education-li, .experience-info {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr;
+  gap: 30px;
 }
 
 .li-title {
@@ -145,3 +161,19 @@ li, .experience-info {
   color:var(--dark-gray);
 }
 
+span {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
+.delete {
+  font-weight: bold;
+  text-align: right;
+  color: var(--light-gray);
+}
+
+.delete:hover {
+  cursor: pointer;
+  color: var(--dark-gray);
+}
