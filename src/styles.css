@@ -4,6 +4,8 @@ body {
   font-family: 'Nunito', sans-serif;
   margin: auto;
   --green: rgb(79, 187, 133);
+  --dark-gray: rgb(104, 109, 107);
+  --light-gray: rgb(204, 207, 206);
 }
 
 .App {
@@ -14,7 +16,7 @@ body {
 }
 
 .container {
-  width: 45%;
+  width: 50%;
   display: flex;
   flex-direction: column;
   gap: 100px;
@@ -23,7 +25,7 @@ body {
 .specific-info {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 50px;
+  gap: 150px;
 }
 
 form {
@@ -39,28 +41,41 @@ form>div {
 input {
   font-family: inherit;
   outline: none;
-  border: 1px solid rgb(204, 207, 206);
+  border: 1px solid var(--light-gray);
   padding: 7px 10px;
-  color: rgb(104, 109, 107);
+  color: var(--dark-gray);
 }
 
-#full-name {
-  font-size: x-large;
-  font-weight: bold;
-}
-
-#email, #phone, #about {
+.general-form label, .general-info div {
+  color: var(--dark-gray);
   font-size: large;
 }
 
-#email, #phone, #full-name, #about {
-  border: none;
+.general-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.main-info {
+  display: grid;
+  gap: 20px;
+  padding-bottom: 20px;
+}
+
+h2 {
+  text-decoration: underline;
+  text-decoration-color: var(--green);
+  text-decoration-thickness: 2px;
+}
+
+.about-title, h2 {
   padding: 0;
-  color: rgb(54, 56, 55);
+  margin: 0;
 }
 
 #about:focus {
-  border: 1px solid rgb(204, 207, 206);
+  border: 1px solid var(--light-gray);
   padding: 7px 10px;
 }
 
@@ -80,7 +95,7 @@ h3, label[for="about"] {
   border: none;
   padding: 5px 10px;
   margin-bottom: 10px;
-  background-color: rgb(204, 207, 206);
+  background-color: var(--light-gray);
   transition: all .2s ease-in-out;
 }
 
@@ -100,3 +115,33 @@ h3, label[for="about"] {
 .submit-button:hover {
   box-shadow: 0 0.5em 0.5em -0.4em var(--green);
 }
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  padding: 10px 0;
+}
+
+li, .experience-info {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.li-title {
+  font-weight: bold;
+}
+
+.experience-li {
+  display: flex;
+  flex-direction: column;
+}
+
+.li-tasks {
+  color:var(--dark-gray);
+}
+

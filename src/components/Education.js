@@ -21,9 +21,9 @@ class Education extends Component {
     }
 
     addEducationToList(education){
-        console.log(this)
         this.setState({
             educationList: this.state.educationList.concat(education),
+            showForm: false
         })
     }
 
@@ -101,7 +101,7 @@ const EducationList = (props) => {
         <ul>
             {educationList.map((education) => {
                 return <li key={education.id}>
-                        <span>{education.title}</span>
+                        <span className="li-title">{education.title}</span>
                         <span>{education.institution}</span>
                         <span>{education.date}</span>
                     </li>
