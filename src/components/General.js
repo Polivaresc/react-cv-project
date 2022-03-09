@@ -71,6 +71,12 @@ class GeneralForm extends Component {
         this.props.setGeneralInfo(this.state.generalInfo)
     }
 
+        /* if(!e.target.email) {
+            errors.email = 'Your email is required'
+        } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(e.target.email)) {
+            errors.email = 'Please, enter a valid email address'
+        } */
+
     render() {
         return (
             <div>
