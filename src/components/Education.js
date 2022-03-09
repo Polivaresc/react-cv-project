@@ -7,38 +7,25 @@ class Education extends Component {
 
         this.state = {
             showForm: false,
-            invalidForm: true,
             educationList: []
         }
 
         this.showEducationForm = this.showEducationForm.bind(this)
         this.addEducationToList = this.addEducationToList.bind(this)
         this.deleteEducation = this.deleteEducation.bind(this)
-        this.isInvalid = this.isInvalid.bind(this)
     }
 
     showEducationForm() {
-        if(this.state.invalidForm) {
-            this.setState({
-                showForm: true
-            })
-        }
-    }
-
-    isInvalid(invalid) {
         this.setState({
-            invalidForm: invalid
+            showForm: true
         })
-        console.log('Education:' + this.state.invalidForm)
     }
 
     addEducationToList(education){
-        if(!this.state.invalidForm) {
-            this.setState({
-                educationList: this.state.educationList.concat(education),
-                showForm: false
-            })
-        }
+        this.setState({
+            educationList: this.state.educationList.concat(education),
+            showForm: false
+        })
     }
 
     deleteEducation(e) {
@@ -52,7 +39,7 @@ class Education extends Component {
             <div>
                 <h3>Education:</h3>
                 <button className="add-button" onClick={this.showEducationForm}>Add Education +</button>
-                {this.state.showForm && <EducationForm addEducationToList={this.addEducationToList} isInvalid={this.isInvalid}/>}
+                {this.state.showForm && <EducationForm addEducationToList={this.addEducationToList}/>}
                 <EducationList educationList={this.state.educationList} deleteEducation={this.deleteEducation}/>
             </div>
         )
@@ -70,16 +57,15 @@ class EducationForm extends Component {
                 date: '',
                 id: uniqid()
             },
-            invalid: true,
+            invalid: false,
             errors: {}
         }
 
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleChange = this.handleChange.bind(this)
-        this.validateForm = this.validateForm.bind(this)
-        this.handleErrors = this.handleErrors.bind(this)
-        this.submitEducation = this.submitEducation.bind(this)
-    }
+        this.resetEducation = this.resetEducation.bind(this)
+/*         this.validateForm = this.validateForm.bind(this)
+ */    }
 
     handleChange(e) {
         const newEducation = this.state.education
@@ -89,73 +75,61 @@ class EducationForm extends Component {
 
     handleSubmit(e) {
         e.preventDefault()
-
-        this.submitEducation()
-        this.handleErrors()
+        this.props.addEducationToList(this.state.education)    
+        this.resetEducation()
+/* 
         this.validateForm()
-        this.props.isInvalid(this.state.invalid)
 
-        console.log('Form:'+this.state.invalid)
-
-        if(!this.state.invalid) {
-            this.props.addEducationToList(this.state.education)
+        if (Object.keys(this.state.errors).length) {
             this.setState({
-                errors: {}
+                invalid: true
             })
-        }
-    }
-
-    handleErrors() {
-        const err = {}
-
-        if(!this.state.education.title) {
-            err.title = 'This field is required'
-        }
-
-        if(!this.state.education.institution) {
-            err.institution = 'This field is required'
-        }
-
-        this.setState({
-            errors: Object.assign(err)
-        })   
-    }
-
-    validateForm() {
-        if (Object.keys(this.state.errors).length === 0) {
+        } else {
             this.setState({
                 invalid: false
             })
-        } else if(Object.keys(this.state.errors).length > 0) {
-            this.setState({
-                invalid: true,
-            })
+    
+            this.props.addEducationToList(this.state.education)    
         }
-    }
+ */    }
 
-    submitEducation() {
+    resetEducation() {
         this.setState({
             education: {
                 title: '',
                 institution: '',
                 date: '',
-                id: uniqid(),
-        }})
+                id: uniqid()
+            }
+        })
     }
 
+/*     validateForm() {
+        const err = {}
+        if (!this.state.education.title) {
+            err.title = 'This field is required'
+        }
+        if (!this.state.education.institution) {
+            err.institution = 'This field is required'
+        }
+        this.setState({
+            errors: Object.assign(err)
+        })
+    }
+ */
     render() {
         return(
             <form>
                 <div>
                     <label htmlFor="studies-title">Title:</label>
                     <input type="text" id="studies-title" name="title" onChange={this.handleChange}/>
-                    {this.state.invalid ? <Error errors={this.state.errors} name="title"/> : ''}
-                </div>
+{/*                     {this.state.invalid ? <Error errors={this.state.errors} name="title"/> : ''}
+ */}                </div>
                 <div>
                     <label htmlFor="studies-institution">Institution:</label>
                     <input type="text" id="studies-institution" name="institution" onChange={this.handleChange}/>
-                    {this.state.invalid ? <Error errors={this.state.errors} name="institution"/> : ''}
-                </div>
+{/*                     {this.state.invalid ? <Error errors={this.state.errors} name="institution"/> : ''}
+ */}                </div>
                 <div>
                     <label htmlFor="studies-date">Finish date:</label>
                     <input type="date" id="studies-date" name="date" onChange={this.handleChange}/>
@@ -165,14 +139,14 @@ class EducationForm extends Component {
     )}
 }
 
-const Error = (props) => {
+/* const Error = (props) => {
     const { errors, name } = props
     const message = errors[name]
     return(
         <div>{message}</div>
     )
 }
-
+ */
 const EducationList = (props) => {
     const { educationList, deleteEducation } = props
 

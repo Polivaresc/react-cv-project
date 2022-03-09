@@ -98,7 +98,7 @@ class ExperienceForm extends Component {
                 </div>
                 <div>
                     <label htmlFor="main-tasks">Main tasks:</label>
-                    <input type="textarea" id="main-tasks" name="tasks" onChange={this.handleChange}/>
+                    <textarea id="main-tasks" name="tasks" onChange={this.handleChange}/>
                 </div>
                 <div>
                     <label htmlFor="job-duration">Duration (years):</label>

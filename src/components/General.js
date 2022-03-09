@@ -99,7 +99,7 @@ class GeneralForm extends Component {
                     </div>
                     <div>
                         <label htmlFor="about">About me:</label>
-                        <input type="textarea" id="about" name="about" rows={4} onChange={this.addInfo}/>
+                        <textarea id="about" name="about" rows={4} onChange={this.addInfo}/>
                     </div>
                     <button type="submit" className="submit-button" onClick={this.handleSubmit}>Done</button>
                 </form>
