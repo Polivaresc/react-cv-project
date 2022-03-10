@@ -1,5 +1,4 @@
-import React,{ useState } from "react";
-
+import React,{ useEffect, useState } from "react";
 
 const General = () => {
     const [showForm, setShowForm] = useState(true)
@@ -10,6 +9,12 @@ const General = () => {
         picture: '',
         about: ''
     })
+    const [errors, setErrors] = useState({
+        fullname: '',
+        email: '',
+        phone: '',
+    })
+    const [validity, setValidity] = useState(true)
     
     const handleChange = (e) => {
         const keyName = Object.keys(generalInfo).find((key) => key === e.target.name)
@@ -18,10 +23,31 @@ const General = () => {
         }
     }
 
+    
+
     const handleSubmit = (e) => {
         e.preventDefault()
+
+        
+        if (!generalInfo.fullname) {
+            setErrors({...errors, fullname : 'Your name is required'})
+        } 
+
+        if (!generalInfo.email) {
+            setErrors({...errors, email: 'Please write a valid e-mail address'})
+        } 
+
+        if (!generalInfo.phone) {
+            setErrors({...errors, phone: 'Please write a valid phone number'})
+        } 
         setShowForm(false)
     }
+
+    useEffect(() => {
+        setValidity(false)
+        setShowForm(true)
+        console.log(errors)
+    }, [errors])
 
     const editInfo = () => {
         setShowForm(true)
@@ -34,14 +60,17 @@ const General = () => {
                     <div>
                         <label htmlFor="full-name">*Full name:</label>
                         <input type="text" id="full-name" name="fullname" placeholder="Thor Odinson" value={generalInfo.fullname} onChange={handleChange}/>
+                        {!validity ? <Error errors={errors} name="fullname"/> : ''}
                     </div>
                     <div>
                         <label htmlFor="email">*E-mail:</label>
                         <input type="email" id="email" name="email" placeholder="thor@thunder.com" value={generalInfo.email} onChange={handleChange}/>
+                        {!validity ? <Error errors={errors} name="email"/> : ''}
                     </div>
                     <div>
                         <label htmlFor="phone">*Phone:</label>
                         <input type="tel" id="phone" name="phone" placeholder="123 456 789" value={generalInfo.phone} onChange={handleChange}/>
+                        {!validity ? <Error errors={errors} name="phone"/> : ''}
                     </div>
                     <div>
                         <label htmlFor="picture">Picture (link):</label>
@@ -61,6 +90,14 @@ const General = () => {
             <GeneralInfo generalInfo={generalInfo}/>
             <button type="button" className="submit-button" onClick={editInfo}>Edit Information</button>
         </div>
+    )
+}
+
+const Error = (props) => {
+    const { errors, name } = props
+    const message = errors[name]
+    return(
+        <div className="error-message">{message}</div>
     )
 }
 

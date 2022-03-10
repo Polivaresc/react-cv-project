@@ -178,3 +178,8 @@ span {
   cursor: pointer;
   color: var(--dark-gray);
 }
+
+.error-message {
+  color: rgb(196, 27, 27);
+  font-size: small;
+}
