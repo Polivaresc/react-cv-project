@@ -1,113 +1,75 @@
-import React,{ Component } from "react";
+import React,{ useState } from "react";
 import uniqid from "uniqid";
 
-class Experience extends Component {
-    constructor() {
-        super()
+const Experience = () => {
+    const [showForm, setShowForm] = useState(false)
+    const [experienceList, setExperienceList] = useState([])
+    const [experience, setExperience] = useState({
+        title: '',
+        company: '',
+        tasks: '',
+        duration: '',
+        id: uniqid()
+    })
 
-        this.state = {
-            showForm: false,
-            experienceList: []
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        setShowForm(false)
+        setExperienceList(experienceList.concat(experience))
+        setExperience({
+            title: '',
+            company: '',
+            tasks: '',
+            duration: '',
+            id: uniqid()
+        })
+    }
+
+    const handleChange = (e) => {
+        const keyName = Object.keys(experience).find((key) => key === e.target.name)
+        if(e.target.name === keyName) {
+            setExperience({...experience, [e.target.name]: e.target.value})
         }
-
-        this.showExperienceForm = this.showExperienceForm.bind(this)
-        this.addExperienceToList = this.addExperienceToList.bind(this)
-        this.deleteExperience = this.deleteExperience.bind(this)
-
+    }
+    
+    const deleteExperience = (e) => {
+        setExperienceList(experienceList.filter((experience) => experience.id !== e.target.dataset.id))
     }
 
-    showExperienceForm() {
-        this.setState({
-            showForm: true
-        })
-    }
-
-    addExperienceToList(experience){
-        this.setState({
-            experienceList: this.state.experienceList.concat(experience),
-            showForm: false
-        })
-    }
-
-    deleteExperience(e) {
-        this.setState({
-            experienceList: this.state.experienceList.filter((experience) => experience.id !== e.target.dataset.id)
-        })
-    }
-
-    render() {
+    if (showForm) {
         return (
             <div>
                 <h3>Work experience:</h3>
-                <button className="add-button" onClick={this.showExperienceForm}>Add Experience +</button>
-                {this.state.showForm && <ExperienceForm addExperienceToList={this.addExperienceToList}/>}
-                <ExperienceList experienceList={this.state.experienceList} deleteExperience={this.deleteExperience}/>
+                <button className="add-button" onClick={() => setShowForm(true)}>Add Experience +</button>
+                <form>
+                    <div>
+                        <label htmlFor="job-title">Job Position:</label>
+                        <input type="text" id="job-title" name="title" onChange={handleChange}/>
+                    </div>
+                    <div>
+                        <label htmlFor="company">Company:</label>
+                        <input type="text" id="company" name="company" onChange={handleChange}/>
+                    </div>
+                    <div>
+                        <label htmlFor="main-tasks">Main tasks:</label>
+                        <textarea id="main-tasks" name="tasks" onChange={handleChange}/>
+                    </div>
+                    <div>
+                        <label htmlFor="job-duration">Duration (years):</label>
+                        <input type="number" id="job-duration" name="duration" onChange={handleChange}/>
+                    </div>
+                    <button type="submit" className="submit-button" onClick={handleSubmit}>Done</button>
+                </form>
             </div>
         )
     }
-}
-
-
-class ExperienceForm extends Component {
-    constructor() {
-        super()
-
-        this.state = {
-            experience: {
-                title: '',
-                company: '',
-                tasks: '',
-                duration: '',
-                id: uniqid()
-            },
-        }
-
-        this.handleSubmit = this.handleSubmit.bind(this)
-        this.handleChange = this.handleChange.bind(this)
-    }
-
-    handleChange(e) {
-        const newExperience = this.state.experience
-        newExperience[e.target.name] = e.target.value
-        this.setState({experience: newExperience})
-    }
-
-    handleSubmit(e) {
-        e.preventDefault()
-        this.props.addExperienceToList(this.state.experience)
-        this.setState({
-            experience: {
-                title: '',
-                company: '',
-                tasks: '',
-                duration: '',
-                id: uniqid()
-        }})
-    }
-
-    render() {
-        return(
-            <form>
-                <div>
-                    <label htmlFor="job-title">Job Position:</label>
-                    <input type="text" id="job-title" name="title" onChange={this.handleChange}/>
-                </div>
-                <div>
-                    <label htmlFor="company">Company:</label>
-                    <input type="text" id="company" name="company" onChange={this.handleChange}/>
-                </div>
-                <div>
-                    <label htmlFor="main-tasks">Main tasks:</label>
-                    <textarea id="main-tasks" name="tasks" onChange={this.handleChange}/>
-                </div>
-                <div>
-                    <label htmlFor="job-duration">Duration (years):</label>
-                    <input type="number" id="job-duration" name="duration" onChange={this.handleChange}/>
-                </div>
-                <button type="submit" className="submit-button" onClick={this.handleSubmit}>Done</button>
-            </form>
+    return (
+        <div>
+            <h3>Work experience:</h3>
+            <button className="add-button" onClick={() => setShowForm(true)}>Add Experience +</button>
+            <ExperienceList experienceList={experienceList} deleteExperience={deleteExperience}/>
+        </div>
     )
-    }
 }
 
 const ExperienceList = (props) => {
@@ -131,6 +93,5 @@ const ExperienceList = (props) => {
         </ul> 
     )
 }
-
 
 export default Experience;
