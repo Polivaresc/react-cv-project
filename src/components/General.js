@@ -1,4 +1,4 @@
-import React,{ useEffect, useState } from "react";
+import React,{ useState } from "react";
 
 const General = () => {
     const [showForm, setShowForm] = useState(true)
@@ -20,34 +20,41 @@ const General = () => {
         const keyName = Object.keys(generalInfo).find((key) => key === e.target.name)
         if(e.target.name === keyName) {
             setGeneralInfo({...generalInfo, [e.target.name]: e.target.value})
+            setErrors({...errors, [e.target.name]: ''})
         }
     }
 
-    
-
     const handleSubmit = (e) => {
         e.preventDefault()
-
         
+        const currentErrors = {
+            fullname: '',
+            email: '',
+            phone: '',
+        }
+
         if (!generalInfo.fullname) {
-            setErrors({...errors, fullname : 'Your name is required'})
+            currentErrors.fullname = 'Your name is required'
         } 
 
         if (!generalInfo.email) {
-            setErrors({...errors, email: 'Please write a valid e-mail address'})
+            currentErrors.email = 'Please write a valid e-mail address'
         } 
 
         if (!generalInfo.phone) {
-            setErrors({...errors, phone: 'Please write a valid phone number'})
-        } 
-        setShowForm(false)
-    }
+            currentErrors.phone = 'Please write a valid phone number'
+        }
 
-    useEffect(() => {
-        setValidity(false)
-        setShowForm(true)
-        console.log(errors)
-    }, [errors])
+        setErrors(currentErrors)
+
+        if(Object.values(currentErrors).filter((error) => !!error).length) {
+            setValidity(false)
+            setShowForm(true)    
+        } else {
+            setValidity(true)
+            setShowForm(false)
+        }
+    }
 
     const editInfo = () => {
         setShowForm(true)

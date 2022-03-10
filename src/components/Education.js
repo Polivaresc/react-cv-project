@@ -10,24 +10,52 @@ const Education = () => {
         date: '',
         id: uniqid()
     })
+    const [errors, setErrors] = useState({
+        title: '',
+        institution: ''
+    })
+    const [validity, setValidity] = useState(true)
 
     const handleChange = (e) => {
         const keyName = Object.keys(education).find((key) => key === e.target.name)
         if(e.target.name === keyName) {
             setEducation({...education, [e.target.name]: e.target.value})
+            setErrors({...errors, [e.target.name]: ''})
         }
     }
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        setShowForm(false)
-        setEducationList(educationList.concat(education))
-        setEducation({
+        
+        const currentErrors = {
             title: '',
-            institution: '',
-            date: '',
-            id: uniqid()
-        })
+            institution: ''
+        }
+
+        if (!education.title) {
+            currentErrors.title = 'Title name is required'
+        } 
+
+        if (!education.institution) {
+            currentErrors.institution = 'Institution name is required'
+        } 
+
+        setErrors(currentErrors)
+
+        if(Object.values(currentErrors).filter((error) => !!error).length) {
+            setValidity(false)
+            setShowForm(true)    
+        } else {
+            setValidity(true)
+            setShowForm(false)
+            setEducationList(educationList.concat(education))
+            setEducation({
+                title: '',
+                institution: '',
+                date: '',
+                id: uniqid()
+            })
+        }
     }
 
     const deleteEducation = (e) => {
@@ -41,12 +69,14 @@ const Education = () => {
                 <button className="add-button" onClick={() => setShowForm(true)}>Add Education +</button>
                 <form>
                     <div>
-                        <label htmlFor="studies-title">Title:</label>
+                        <label htmlFor="studies-title">*Title:</label>
                         <input type="text" id="studies-title" name="title" onChange={handleChange}/>
+                        {!validity ? <Error errors={errors} name="title"/> : ''}
                     </div>
                     <div>
-                        <label htmlFor="studies-institution">Institution:</label>
+                        <label htmlFor="studies-institution">*Institution:</label>
                         <input type="text" id="studies-institution" name="institution" onChange={handleChange}/>
+                        {!validity ? <Error errors={errors} name="institution"/> : ''}
                     </div>
                     <div>
                         <label htmlFor="studies-date">Finish date:</label>
@@ -66,20 +96,14 @@ const Education = () => {
     )
 }
 
-       /*  this.state = {
-            invalid: false,
-            errors: {}
-        }
- */
-
-/* const Error = (props) => {
+const Error = (props) => {
     const { errors, name } = props
     const message = errors[name]
     return(
-        <div>{message}</div>
+        <div className="error-message">{message}</div>
     )
 }
- */
+
 const EducationList = (props) => {
     const { educationList, deleteEducation } = props
 
