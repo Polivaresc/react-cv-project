@@ -1,111 +1,67 @@
-import React,{ Component } from "react";
+import React,{ useState } from "react";
 
-class General extends Component {
-    constructor() {
-        super()
 
-        this.state = {
-            showForm: true,
-            general: {}
+const General = () => {
+    const [showForm, setShowForm] = useState(true)
+    const [generalInfo, setGeneralInfo] = useState({
+        fullname: '',
+        email: '',
+        phone: '',
+        picture: '',
+        about: ''
+    })
+    
+    const handleChange = (e) => {
+        const keyName = Object.keys(generalInfo).find((key) => key === e.target.name)
+        if(e.target.name === keyName) {
+            setGeneralInfo({...generalInfo, [e.target.name]: e.target.value})
         }
-
-        this.setGeneralInfo = this.setGeneralInfo.bind(this)
-        this.editInfo = this.editInfo.bind(this)
     }
 
-    setGeneralInfo(generalInfo) {
-        this.setState({
-            general: Object.assign(generalInfo),
-            showForm: false
-        })
-    }
-
-    editInfo() {
-        this.setState({
-            showForm: true
-        })
-    }
-
-    render() {
-        return (
-            <div>
-                {this.state.showForm && <GeneralForm setGeneralInfo={this.setGeneralInfo}/>}
-                {!(this.state.showForm) && 
-                    <div>
-                        <GeneralInfo generalInfo={this.state.general}/>
-                        <button type="button" className="submit-button" onClick={this.editInfo}>Edit Information</button>
-                    </div>
-                }
-            </div>
-        )
-    }
-}
-
-class GeneralForm extends Component {
-    constructor() {
-        super()
-
-        this.state = {
-            generalInfo: {
-                fullname: '',
-                email: '',
-                phone: '',
-                picture: '',
-                about: '',
-            }
-        }
-
-        this.addInfo = this.addInfo.bind(this)
-        this.handleSubmit = this.handleSubmit.bind(this)
-
-    }
-
-    addInfo(e) {
-        const newInfo = this.state.generalInfo
-        newInfo[e.target.name] = e.target.value
-        this.setState({generalInfo: newInfo})
-    }
-
-    handleSubmit(e) {
+    const handleSubmit = (e) => {
         e.preventDefault()
-        this.props.setGeneralInfo(this.state.generalInfo)
+        setShowForm(false)
     }
 
-        /* if(!e.target.email) {
-            errors.email = 'Your email is required'
-        } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(e.target.email)) {
-            errors.email = 'Please, enter a valid email address'
-        } */
+    const editInfo = () => {
+        setShowForm(true)
+    }
 
-    render() {
+    if (showForm) {
         return (
             <div>
                 <form className="general-form">
                     <div>
                         <label htmlFor="full-name">*Full name:</label>
-                        <input type="text" id="full-name" name="fullname" placeholder="Thor Odinson" onChange={this.addInfo}/>
+                        <input type="text" id="full-name" name="fullname" placeholder="Thor Odinson" value={generalInfo.fullname} onChange={handleChange}/>
                     </div>
                     <div>
                         <label htmlFor="email">*E-mail:</label>
-                        <input type="email" id="email" name="email" placeholder="thor@thunder.com" onChange={this.addInfo}/>
+                        <input type="email" id="email" name="email" placeholder="thor@thunder.com" value={generalInfo.email} onChange={handleChange}/>
                     </div>
                     <div>
                         <label htmlFor="phone">*Phone:</label>
-                        <input type="tel" id="phone" name="phone" placeholder="123 456 789" onChange={this.addInfo}/>
+                        <input type="tel" id="phone" name="phone" placeholder="123 456 789" value={generalInfo.phone} onChange={handleChange}/>
                     </div>
                     <div>
                         <label htmlFor="picture">Picture (link):</label>
-                        <input type="url" id="picture" name="picture" onChange={this.addInfo}/>
+                        <input type="url" id="picture" name="picture" onChange={handleChange}/>
                     </div>
                     <div>
                         <label htmlFor="about">About me:</label>
-                        <textarea id="about" name="about" rows={4} onChange={this.addInfo}/>
+                        <textarea id="about" name="about" rows={4} value={generalInfo.about} onChange={handleChange}/>
                     </div>
-                    <button type="submit" className="submit-button" onClick={this.handleSubmit}>Done</button>
+                    <button type="submit" className="submit-button" onClick={handleSubmit}>Done</button>
                 </form>
             </div>
         )
-    }
+    } 
+    return (
+        <div>
+            <GeneralInfo generalInfo={generalInfo}/>
+            <button type="button" className="submit-button" onClick={editInfo}>Edit Information</button>
+        </div>
+    )
 }
 
 const GeneralInfo = (props) => {

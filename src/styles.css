@@ -38,15 +38,16 @@ form>div {
   gap: 5px;
 }
 
-input {
+input, textarea {
   font-family: inherit;
   outline: none;
   border: 1px solid var(--light-gray);
   padding: 7px 10px;
   color: var(--dark-gray);
+  resize: vertical;
 }
 
-input:focus {
+input:focus, textarea:focus {
   border: 1px solid var(--green);
 }
 
